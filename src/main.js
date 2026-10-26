@@ -12,10 +12,19 @@ import * as directives from 'vuetify/directives'
 
 import App from './App.vue'
 import { router } from './router'
+import VueCookies from 'vue-cookies'
 
 const vuetify = createVuetify({
     components,
     directives,
 })
 
-createApp(App).use(vuetify).use(router).mount('#app');
+createApp(App)
+    .use(vuetify)
+    .use(router)
+    .use(VueCookies, {
+        expire: 60 * 60,
+        secure: process.env.NODE_ENV === "production",
+        httpOnly: true,
+        sameSite: "lax"
+    }).mount('#app');
