@@ -44,8 +44,7 @@ onMounted(async () => {
 
   try {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/auth?code=${code}`)
-    const data = await response.json()
-    console.log("[AuthView] token response:", data)
+    const data = await response.json();
 
     if (!response.ok || !data.access_token) {
       throw new Error(data.error_description || data.error || "アクセストークンの取得に失敗しました。")
