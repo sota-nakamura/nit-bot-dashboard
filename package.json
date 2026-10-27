@@ -10,7 +10,11 @@
   },
   "dependencies": {
     "@fontsource/roboto": "^5.3.0",
+    "@fortawesome/fontawesome-free": "^7.3.1",
     "@mdi/font": "^7.4.47",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
+    "pinia": "^4.1.0",
     "vue": "^3.5.42",
     "vue-cookies": "^1.8.6",
     "vue-router": "^5.4.0",

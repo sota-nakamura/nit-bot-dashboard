@@ -1,16 +1,14 @@
 <script setup>
 const items = [
   {
-    icon: 'mdi-account',
-    text: 'Social',
+    icon: 'notifications',
+    text: 'LoL通知設定',
+    link: '/settings/lol'
   },
   {
-    icon: 'mdi-alert-octagon',
-    text: 'Spam',
-  },
-  {
-    icon: 'mdi-lock',
-    text: 'Inappropriate',
+    icon: 'task_alt',
+    text: 'リマインダー',
+    link: '/settings/reminder'
   },
 ]
 </script>
@@ -23,12 +21,14 @@ const items = [
         :key="i"
         :value="item"
         rounded="xl"
+        link
+        :to="item.link"
       >
         <template v-slot:prepend>
           <v-icon :icon="item.icon"></v-icon>
         </template>
 
-        <v-list-item-title v-text="item.text" link href="#"></v-list-item-title>
+        <v-list-item-title v-text="item.text"></v-list-item-title>
       </v-list-item>
     </v-list>
 </template>
