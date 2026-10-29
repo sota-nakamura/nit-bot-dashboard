@@ -6,6 +6,6 @@ const route = useRoute();
 const pageName = computed(() => route.meta.title || '');
 </script>
 <template>
-    <h3>設定 - {{ pageName }}</h3>
+    <h3 class="mb-4">設定 - {{ pageName }}</h3>
     <RouterView />
 </template>
