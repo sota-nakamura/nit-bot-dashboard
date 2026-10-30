@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/:hoge",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
-}
+}
