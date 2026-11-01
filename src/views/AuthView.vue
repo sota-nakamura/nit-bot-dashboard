@@ -54,12 +54,22 @@ const errorMessage = ref("")
 const redirectUri = encodeURIComponent(import.meta.env.VITE_REDIRECT_URI || '')
 const loginUrl = `https://discord.com/oauth2/authorize?client_id=${import.meta.env.VITE_CLIENT_ID}&response_type=code&redirect_uri=${redirectUri}&scope=identify`
 
+const redirectAfterAuth = () => {
+  const redirect = sessionStorage.getItem("redirect")
+  if (redirect) {
+    sessionStorage.removeItem("redirect")
+    router.push(redirect)
+  } else {
+    router.push("/profile")
+  }
+}
+
 onMounted(async () => {
   const code = route.query.code
 
-  // 既にログイン済みで、認証コードがない場合はプロフィールへ
+  // 既にログイン済みで、認証コードがない場合はリダイレクト先またはプロフィールへ
   if (isLoggedIn.value && !code) {
-    router.push("/profile")
+    redirectAfterAuth()
     return
   }
 
@@ -75,12 +85,12 @@ onMounted(async () => {
     const data = await response.json()
 
     if (!response.ok || !data.access_token) {
-      throw new Error(data.error_description || data.error || "アクセストークンの取得に失敗しました。")
+      throw new Error(data.message || data.error_description || data.error || "アクセストークンの取得に失敗しました。")
     }
 
     userStore.setTokens(data.access_token, data.refresh_token)
-    // 成功時のみプロフィール画面へ遷移
-    router.push('/profile')
+    // 成功時は保存されたリダイレクト先（なければプロフィール画面）へ遷移し、保存データを破棄
+    redirectAfterAuth()
   } catch (e) {
     console.error("[AuthView] error:", e)
     errorMessage.value = e.message || "エラーが発生しました。"

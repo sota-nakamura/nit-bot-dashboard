@@ -34,11 +34,10 @@ export const router = createRouter({
     routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
     const userStore = useUserStore();
     if (to.meta.requiresAuth && !userStore.isLoggedIn) {
-        next('/auth');
-    } else {
-        next();
+        sessionStorage.setItem("redirect", to.fullPath);
+        return '/auth';
     }
 });

@@ -121,7 +121,7 @@ const channelId = route.query.channelId
       const data = await res.json()
       console.log(data)
       if (!res.ok) {
-        throw new Error(data.error)
+        throw new Error(data.message || data.error || "設定の取得に失敗しました。")
       }
       vcPrefs.value = data
       tts.value = data.tts || []
@@ -172,23 +172,29 @@ const channelId = route.query.channelId
     } else {
       url = `${import.meta.env.VITE_API_URL}/api/vc/channels/${channelId}`
     }
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        userId: userStore.user.id,
-        name: state.channelName,
-        memberLimit: state.maxMember,
-        notifyLog: state.notifyLog,
-        readMessage: state.readMessage,
-        voiceType: state.select
-      })
-    });
-    if (res.ok) {
-      snackBar.value?.showSnackbar("設定を更新しました。", "success");
-    } else {
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          userId: userStore.user.id,
+          name: state.channelName,
+          memberLimit: state.maxMember,
+          notifyLog: state.notifyLog,
+          readMessage: state.readMessage,
+          voiceType: state.select
+        })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        snackBar.value?.showSnackbar("設定を更新しました。", "success");
+      } else {
+        snackBar.value?.showSnackbar(data.message || "設定の更新に失敗しました。", "error");
+      }
+    } catch (err) {
+      console.error("Failed to save VC prefs:", err);
       snackBar.value?.showSnackbar("設定の更新に失敗しました。", "error");
     }
   }
