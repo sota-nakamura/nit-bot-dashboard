@@ -1,6 +1,11 @@
 <script setup>
 const items = [
   {
+    icon: 'volume_up',
+    text: 'VC設定',
+    link: '/settings/vc'
+  },
+  {
     icon: 'notifications',
     text: 'LoL通知設定',
     link: '/settings/lol'
