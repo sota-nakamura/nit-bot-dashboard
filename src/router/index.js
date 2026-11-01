@@ -8,6 +8,7 @@ import SettingsView from '@/views/settings/SettingView.vue'
 import VCSettings from '@/views/settings/VCSettings.vue'
 import LolNotification from '@/views/settings/LolNotification.vue'
 import ReminderSettings from '@/views/settings/Reminder.vue'
+import TestView from '@/views/TestView.vue'
 import { useUserStore } from '@/stores/user'
 
 const routes = [
@@ -15,6 +16,7 @@ const routes = [
     { path: '/about', component: AboutView },
     { path: '/auth', component: AuthView },
     { path: '/profile', component: ProfileView, meta: { requiresAuth: true } },
+    { path: '/test', component: TestView },
     {
         path: '/settings',
         component: SettingsView,
