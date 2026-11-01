@@ -1,16 +1,16 @@
-import 'unfonts.css'
-import '@/assets/main.css'
-import '@mdi/font/css/materialdesignicons.css'
+import "unfonts.css";
+import "@/assets/main.css";
+import "@mdi/font/css/materialdesignicons.css";
 
-import { createApp } from 'vue'
+import { createApp } from "vue";
 
-import vuetify from './plugins/vuetify'
-import App from './App.vue'
-import { router } from './router'
-import { createPinia } from 'pinia'
-import VueCookies from 'vue-cookies'
+import vuetify from "./plugins/vuetify";
+import App from "./App.vue";
+import { router } from "./router";
+import { createPinia } from "pinia";
+import VueCookies from "vue-cookies";
 
-const pinia = createPinia()
+const pinia = createPinia();
 
 createApp(App)
     .use(pinia)
@@ -21,4 +21,4 @@ createApp(App)
         secure: process.env.NODE_ENV === "production",
         httpOnly: true,
         sameSite: "lax"
-    }).mount('#app');
+    }).mount("#app");
