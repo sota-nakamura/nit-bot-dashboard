@@ -8,7 +8,6 @@ import SettingsView from "@/views/settings/SettingView.vue";
 import VCSettings from "@/views/settings/VCSettings.vue";
 import LolNotification from "@/views/settings/LolNotification.vue";
 import ReminderSettings from "@/views/settings/Reminder.vue";
-import TestView from "@/views/TestView.vue";
 import { useUserStore } from "@/stores/user";
 
 const routes = [
@@ -16,7 +15,6 @@ const routes = [
     { path: "/about", component: AboutView },
     { path: "/auth", component: AuthView },
     { path: "/profile", component: ProfileView, meta: { requiresAuth: true } },
-    { path: "/test", component: TestView },
     {
         path: "/settings",
         component: SettingsView,
@@ -35,6 +33,17 @@ export const router = createRouter({
     history: createWebHistory(),
     routes,
 });
+
+if (import.meta.env.DEV) {
+    const TestView = import.meta.glob("@/views/TestView.local.vue");
+    const testViewLoader = TestView["/src/views/TestView.local.vue"];
+    if (testViewLoader) {
+        routes.push({
+            path: "/test",
+            component: testViewLoader
+        });
+    }
+}
 
 router.beforeEach((to) => {
     const userStore = useUserStore();

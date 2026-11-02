@@ -1,5 +1,5 @@
 <template>
-    <Loader :loading="loading" :error="error" @retry="loadPrefs">
+    <Loader :loading="loading" :error="error" @retry="loadLolAccount">
         <form class="w-100" style="max-width: 500px;">
             <v-text-field
                 :loading="loading"
@@ -48,10 +48,23 @@
 import Loader from "@/components/Loader.vue";
 import Snackbar from "@/components/Snackbar.vue";
 import { reactive, ref } from "vue";
+import { useUserStore } from "@/stores/user";
+const userStore = useUserStore();
 const loading = ref(false);
 const error = ref(null);
 const state = reactive({
     summonerName: "",
     server: "jp",
 });
+
+const loadLolAccount = async () => {
+    loading.value = true;
+    if(!userStore.user) {
+        try {
+            userStore.fetchUser();
+        } catch {}
+    }
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/lolAccount/${userStore.user.id}`);
+
+};
 </script>
