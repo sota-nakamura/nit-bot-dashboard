@@ -99,6 +99,29 @@ const state = reactive({
     notifyLog: false,
 });
 
+const rules = computed(() => ({
+    channelName: {
+        required,
+        $autoAliases: {
+            $anyWord: helpers.regex("anyWord", /^\w\s]+$/)
+        }
+    },
+    maxMember: {
+        required,
+    },
+    select: {
+        required,
+    },
+    readMessage: {
+        required,
+    },
+    notifyLog: {
+        required,
+    },
+}));
+
+const v$ = useVuelidate(rules, state);
+
 const loadPrefs = async () => {
     loading.value = true;
     error.value = null;
@@ -139,27 +162,6 @@ const loadPrefs = async () => {
 };
 
 onMounted(loadPrefs);
-
-const rules = computed(() => ({
-    channelName: {
-        required,
-        $autoAliases: {
-            $anyWord: helpers.regex("anyWord", /^\w\s]+$/)
-        }
-    },
-    maxMember: {
-        required,
-    },
-    select: {
-        required,
-    },
-    readMessage: {
-        required,
-    },
-    notifyLog: {
-        required,
-    },
-}));
 
 const submit = async () => {
     v$.value.$validate();
@@ -206,6 +208,4 @@ const reset = () => {
     state.readMessage = vcPrefs.value.preferences?.read_message === 1;
     state.notifyLog = vcPrefs.value.preferences?.notify_log === 1;
 };
-
-const v$ = useVuelidate(rules, state);
 </script>

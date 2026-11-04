@@ -16,7 +16,7 @@
         <v-navigation-drawer v-model="drawer">
             <v-list nav>
                 <v-list-item title="このサイトについて" link to="/about"></v-list-item>
-                <v-list-item title="Discordでログイン" link :href="loginUrl"></v-list-item>
+                <v-list-item title="Discordでログイン" link to="/auth"></v-list-item>
             </v-list>
         </v-navigation-drawer>
 
@@ -32,8 +32,5 @@
 import { ref } from "vue";
 
 const drawer = ref(null);
-
-const redirectUri = encodeURIComponent(import.meta.env.VITE_REDIRECT_URI || "");
-const loginUrl = `https://discord.com/oauth2/authorize?client_id=${import.meta.env.VITE_CLIENT_ID}&response_type=code&redirect_uri=${redirectUri}&scope=identify`;
 </script>
 
