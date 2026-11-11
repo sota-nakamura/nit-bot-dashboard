@@ -1,6 +1,6 @@
 <template>
     <Loader :loading="loading" :error="error" @retry="loadPrefs">
-        <form class="w-100" style="max-width: 500px;">
+        <form class="w-100" style="max-width: 500px;" :disabled="loading">
             <v-text-field
                 v-model="state.channelName"
                 :counter="100"
