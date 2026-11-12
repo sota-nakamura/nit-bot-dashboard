@@ -72,9 +72,6 @@ const rules = computed(() => ({
             helpers.regex(/^[^#]+#[^#]{1,5}$/)
         ),
     },
-    server: {
-        required,
-    },
 }));
 
 const v$ = useVuelidate(rules, state);
@@ -111,11 +108,11 @@ const loadLolAccount = async () => {
 onMounted(loadLolAccount);
 
 const submit = async () => {
-    loading.value = true;
     v$.value.$validate();
     if (v$.value.$invalid) {
         return;
     }
+    loading.value = true;
     try {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/lolaccounts/save`,
             {
@@ -136,9 +133,10 @@ const submit = async () => {
             snackBar.value?.showSnackbar(data.message || "Riot IDの登録に失敗しました。", "error");
         }
     } catch (e) {
-        console.error("Failed to save riot id:", err);
+        console.error("Failed to save riot id:", e);
         snackBar.value?.showSnackbar("Riot IDの登録に失敗しました。", "error");
+    } finally {
+        loading.value = false;
     }
-
 };
 </script>
